@@ -120,6 +120,7 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+
   h1, h2, h3, h4, h5, .hero-title {
     @apply font-heading font-medium tracking-tight leading-[0.95em];
   }
@@ -147,6 +148,7 @@
 
 @layer components {
   .page-section {
-    @apply p-4;
+    @apply p-4 flex justify-center items-center;
   }
+
 }

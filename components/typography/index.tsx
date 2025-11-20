@@ -13,7 +13,7 @@ export const HeroTitle = ({ children }: { children: React.ReactNode }) => {
 
 export const ProjectDescription = ({ children }: { children: React.ReactNode }) => {
     return (
-        <p className="text-xl font-medium">{children}</p>
+        <p className="text-3xl font-medium font-heading tracking-tight">{children}</p>
     )
 }
 

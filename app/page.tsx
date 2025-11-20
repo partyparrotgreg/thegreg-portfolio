@@ -3,6 +3,9 @@ import { toNextMetadata } from "react-datocms";
 import { HOME_QUERY } from "@/queries/home";
 import Link from "next/link";
 import { ProjectRoleBar } from "@/components/blocks/ProjectRoleBar";
+import { ProjectDescription } from "@/components/typography";
+import { SwiperCarousel } from "@/components/blocks/SwiperCarousel";
+
 
 const getHomeContent = async () => await performRequest({ query: HOME_QUERY });
 
@@ -25,6 +28,9 @@ export default async function Home() {
       </section>
       <section className="page-section">
         <div className="container">
+          <pre>
+            {JSON.stringify(data.miniProjects, null, 2)}
+          </pre>
           <ul>
             {data.miniProjects.map((project) => (
               <li key={project.id}><Link href={`/project/${project.slug}`}>{project.projectName}</Link></li>
@@ -36,7 +42,12 @@ export default async function Home() {
         <ProjectRoleBar />
         <section className="page-section">
           <div className="container">
-            <div>Project role</div>
+            <ProjectDescription>I scaled the design team, led ecosystem app initiatives, and boosted marketing efforts.</ProjectDescription>
+          </div>
+        </section>
+        <section className="page-section overflow-hidden">
+          <div className="container">
+            <SwiperCarousel />
           </div>
         </section>
       </div>
