@@ -1,5 +1,6 @@
 import { performRequest } from "@/lib/datocms";
 import { graphql } from "@/gql";
+import { toNextMetadata } from "react-datocms";
 
 const PAGE_QUERY = graphql(`
   query PageQuery {
@@ -25,6 +26,14 @@ const PAGE_QUERY = graphql(`
     }
   }
 `);
+
+const getHomeContent = async () => await performRequest({ query: PAGE_QUERY });
+
+export async function generateMetadata() {
+  const response = await getHomeContent();
+
+  return toNextMetadata([...response.site.favicon, ...response.home!.seo]);
+}
 
 export default async function Home() {
   const data = await performRequest({ query: PAGE_QUERY });
