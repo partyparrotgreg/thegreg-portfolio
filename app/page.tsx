@@ -11,6 +11,11 @@ const PAGE_QUERY = graphql(`
       }
     }
     home {
+      seo: _seoMetaTags {
+        attributes
+        content
+        tag
+      }
       pageIntro
     }
     allProjects {
