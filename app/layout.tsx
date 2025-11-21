@@ -2,6 +2,7 @@ import { Bricolage_Grotesque, Inter_Tight, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/shared/footer";
 import { Header } from "@/components/shared/header";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 
 
@@ -28,15 +29,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${bricolage.variable} ${interTight.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main>
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

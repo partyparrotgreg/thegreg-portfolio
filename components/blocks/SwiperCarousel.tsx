@@ -4,12 +4,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ProjectCard } from "./ProjectCard";
-import { Mousewheel } from 'swiper/modules';
 
-export const SwiperCarousel = () => {
+export const SwiperCarousel = ({ items }: { items: React.ReactNode[] }) => {
+    // const map children, can be multiple elements
     return (
-        <Swiper spaceBetween={24} slidesPerView={'auto'} modules={[Mousewheel]} mousewheel
+        <Swiper spaceBetween={24} slidesPerView={'auto'}
             style={{
                 overflow: 'visible'
             }}
@@ -23,15 +22,11 @@ export const SwiperCarousel = () => {
                     }
                 }
             }>
-            <SwiperSlide>
-                <ProjectCard />
-            </SwiperSlide>
-            <SwiperSlide>
-                <ProjectCard />
-            </SwiperSlide>
-            <SwiperSlide>
-                <ProjectCard />
-            </SwiperSlide>
+            {items.map((child, index) => (
+                <SwiperSlide key={index}>
+                    {child}
+                </SwiperSlide>
+            ))}
         </Swiper>
     )
 }

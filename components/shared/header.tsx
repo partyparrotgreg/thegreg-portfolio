@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Button } from "../ui/button"
+import { TextRoleName } from "../blocks/ProjectRoleBar"
 
 export const Header = () => {
     return (
@@ -7,28 +8,29 @@ export const Header = () => {
             <div className="container flex flex-row justify-between">
 
                 <Link href="/">
-                    <div className="text-xl font-medium flex flex-col gap-0 leading-6">
-                        <div>Greg Hadala</div>
-                        <div className="opacity-50">Designer</div>
-                    </div>
+                    <TextRoleName role="Greg Hadala" company="Designer" />
                 </Link>
+
+
+
+
                 <div className="flex gap-8">
-                    <ul className="flex flex-col justify-end">
+                    {/* <ul className="flex flex-col justify-end">
                         <li className="text-right opacity-50">Recent projects</li>
                         <li className="text-right"><Link href="/">
-                            <Button variant={'link'} size={'link'}>Home</Button>
+                            <Button variant={'link'} size={'link'}>Pyth Rebranding</Button>
                         </Link></li>
                         <li className="text-right"><Link href="/">
-                            <Button variant={'link'} size={'link'}>Home</Button>
+                            <Button variant={'link'} size={'link'}>EngageMint Platform</Button>
                         </Link></li>
                         <li className="text-right"><Link href="/">
-                            <Button variant={'link'} size={'link'}>Home</Button>
+                            <Button variant={'link'} size={'link'}>Swift: Drink Sociably</Button>
                         </Link></li>
                         <li className="text-right"><Link href="/">
-                            <Button variant={'link'} size={'link'}>Home</Button>
+                            <Button variant={'link'} size={'link'}>Kitely: Print on demand platform</Button>
                         </Link></li>
 
-                    </ul>
+                    </ul> */}
                     <ul>
                         <li className="text-right opacity-50">Connect</li>
                         <li className="text-right"><Link href="/">
