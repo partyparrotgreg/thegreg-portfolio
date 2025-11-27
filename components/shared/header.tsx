@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "../ui/button"
-import { TextRoleName } from "../blocks/ProjectRoleBar"
+import { TextRoleName } from "../blocks/project-role-bar"
 
 export const Header = () => {
     return (

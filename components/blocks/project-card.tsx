@@ -5,12 +5,13 @@ import Link from "next/link";
 
 export const ProjectCard = ({ project }: { project: ProjectRecord }) => {
     return (
-        <Link href={`/project/${project.slug}`}>
-            <div className="flex flex-col gap-4 hover:cursor-pointer">
+        <Link href={`/project/${project.slug}`} className="group flex flex-col gap-4 hover:cursor-pointer">
+            <div className="flex flex-col gap-4">
                 {project?.cover.responsiveImage && (
-                    <div className="aspect-square w-full grid place-items-center bg-secondary p-4">
+                    <div className="aspect-3/4 w-full grid place-items-center bg-secondary overflow-hidden">
                         <ReactDatocmsImage
                             data={project.cover.responsiveImage}
+                            className="p-8"
                         />
                     </div>
                 )}

@@ -148,7 +148,6 @@
 
 @layer components {
   .page-section {
-    @apply p-4 flex justify-center items-center;
+    @apply flex justify-center items-center;
   }
-
 }

@@ -1,10 +1,10 @@
 import { performRequest } from "@/lib/datocms";
 import { toNextMetadata } from "react-datocms";
 import { HOME_QUERY } from "@/queries/home";
-import { ProjectRoleBar } from "@/components/blocks/ProjectRoleBar";
+import { ProjectRoleBar } from "@/components/blocks/project-role-bar";
 import { ProjectDescription } from "@/components/typography";
-import { SwiperCarousel } from "@/components/blocks/SwiperCarousel";
-import { ProjectCard } from "@/components/blocks/ProjectCard";
+import { SwiperCarousel } from "@/components/blocks/swiper-carousel";
+import { ProjectCard } from "@/components/blocks/project-card";
 import { ProjectRecord } from "@/gql/graphql";
 import { Fragment } from "react/jsx-runtime";
 

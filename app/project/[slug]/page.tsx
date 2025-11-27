@@ -1,9 +1,14 @@
-import { ProjectRoleBar } from "@/components/blocks/ProjectRoleBar";
+import { getBlock } from "@/components/blocks/get-block";
+import { ProjectRoleBar } from "@/components/blocks/project-role-bar";
 import { SkillsRender } from "@/components/project/skills-render";
 import { SkillRecord } from "@/gql/graphql";
 import { performRequest } from "@/lib/datocms";
 import { PROJECT_QUERY } from "@/queries/project";
-import Image from "next/image";
+import { CdaStructuredTextValue, isCode, isHeading, isParagraph } from "datocms-structured-text-utils";
+import { StructuredText, Image as ReactDatocmsImage, ResponsiveImageType, renderNodeRule } from "react-datocms";
+import { createElement } from "react";
+import { cn } from "@/lib/utils";
+import { SyntaxHighlighter } from "@/components/blocks/syntax-highlighter";
 
 const getProjectData = async (slug: string) => await performRequest({ query: PROJECT_QUERY, variables: { slug }, revalidate: 0 });
 
@@ -57,6 +62,26 @@ export default async function ProjectPage({
 }: {
     params: Promise<{ slug: string }>;
 }) {
+
+    const headingClass = (level: number) => {
+        switch (level) {
+            case 1:
+                return "text-4xl font-bold";
+            case 2:
+                return "text-3xl font-bold";
+            case 3:
+                return "text-2xl font-bold";
+            case 4:
+                return "text-xl font-bold";
+            case 5:
+                return "text-lg font-bold";
+            case 6:
+                return "text-base font-bold";
+            default:
+                return "text-base font-bold";
+        }
+    };
+
     const { slug } = await params;
     const { project } = await getProjectData(slug);
 
@@ -67,37 +92,66 @@ export default async function ProjectPage({
     return (
         <div className="pt-40 relative">
             <video src="unicorn-1763578580412.webm" className="absolute top-0 left-0 w-full h-40 object-cover outline-4" autoPlay loop muted />
-            <ProjectRoleBar role={"asdasd"} company={"eeeee"} from={"2021-04-23"} to="2022-04-23" />
-            <div key="role" className="text-foreground/75">
-                {project.role?.role}
-            </div>
-
-            <SkillsRender
-                skills={project.skills as SkillRecord[]}
-                isVertical
-            />
-
-            <div key="year" className="text-foreground/75">
-                {new Date(project.role?.start).getFullYear()}{" "}
-                {project.role?.end ? (
-                    <>— {new Date(project.role?.end).getFullYear()}</>
-                ) : (
-                    <>— Current</>
-                )}
-            </div>
+            <ProjectRoleBar role={project.role!.role} company={project.client!.company} from={project.role!.start} to={project.role?.end} />
             <header className="page-section">
-                <div className="flex flex-col gap-12">
-                    <TextProjectName>{projectName}</TextProjectName>
-                    <TextProjectSummary>{summary}</TextProjectSummary>
+                <div className="container mx-auto flex flex-col gap-12 outline">
+                    <div className="flex flex-col gap-12">
+                        <TextProjectName>{projectName}</TextProjectName>
+                        <TextProjectSummary>{summary}</TextProjectSummary>
+                    </div>
+                    <SkillsRender
+                        skills={project.skills as SkillRecord[]}
+                        isVertical
+                    />
+
                 </div>
             </header>
             <section className="page-section bg-secondary">
-                <div className="container">
-                    <Image src={cover.url} alt={projectName} width={1200} height={600} className="w-full h-auto" />
+                <div className="container p-12">
+                    <ReactDatocmsImage data={cover.responsiveImage as ResponsiveImageType} className="w-full h-auto" />
                 </div>
             </section>
-            <section>
-                <pre>{JSON.stringify(project, null, 2)}</pre>
+            <div className="container flex flex-col gap-12">
+                <StructuredText
+                    data={project.body as CdaStructuredTextValue}
+                    customNodeRules={[
+                        renderNodeRule(isHeading, ({ node, children, key }) => {
+                            const level = node.level;
+                            const renderElement = createElement(
+                                `h${level}`,
+                                {
+                                    className: cn("max-w-4xl w-full mx-auto", headingClass(level)),
+                                    key,
+                                },
+                                children
+                            );
+
+                            return renderElement;
+                        }),
+                        renderNodeRule(isParagraph, ({ children, key }) => {
+                            return (
+                                <p key={key} className="max-w-4xl w-full mx-auto">
+                                    {children}
+                                </p>
+                            );
+                        }),
+                        renderNodeRule(isCode, ({ node, key }) => {
+                            return (
+                                <SyntaxHighlighter
+                                    key={key}
+                                    code={node.code}
+                                    language={node.language || "plaintext"}
+                                />
+                            );
+                        }),
+                    ]}
+                    renderBlock={({ record }) => getBlock(record)}
+                />
+            </div>
+            <section className="page-section">
+                <div className="container">
+                    <pre>{JSON.stringify(project, null, 2)}</pre>
+                </div>
             </section>
         </div>
     )
